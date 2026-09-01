@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Easy Arrows</title>
+    <!-- 使用简洁的字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0b0e14;
+            color: #ffffff;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- 按钮基础 --- */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #007aff;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 14px 36px;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+        }
+        .btn-primary:hover {
+            background: #005bbf;
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 122, 255, 0.4);
+        }
+        .btn-primary i {
+            font-size: 1.3rem;
+        }
+
+        /* --- 1. 英雄区 (Hero) --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at 20% 30%, #1c2a3a, #0b0e14 80%);
+            padding: 80px 20px;
+            overflow: hidden;
+        }
+        /* 装饰性光效 */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #8e9aaf;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #ffffff, #8ab4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: #b0c4de;
+            max-width: 600px;
+            margin: 0 auto 36px;
+            opacity: 0.9;
+        }
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .hero-cta .app-store-link {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .hero-cta .app-store-link:hover {
+            transform: scale(1.03);
+        }
+        .hero-cta .app-store-link img {
+            height: 54px;
+            width: auto;
+        }
+        .hero-rating {
+            color: #8e9aaf;
+            font-size: 0.95rem;
+        }
+        .hero-rating span {
+            color: #ffb340;
+            letter-spacing: 2px;
+        }
+
+        /* --- 2. 亮点特色 --- */
+        .features {
+            padding: 90px 0;
+            background: #0f131a;
+        }
+        .features h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px 30px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 20px 10px;
+        }
+        .feature-icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .feature-item h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .feature-item p {
+            color: #9aa9be;
+            font-size: 0.95rem;
+        }
+
+        /* --- 3. 截图/视频预览 --- */
+        .media-preview {
+            padding: 90px 0;
+            background: #0b0e14;
+        }
+        .media-preview h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .media-sub {
+            text-align: center;
+            color: #9aa9be;
+            margin-bottom: 50px;
+        }
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+        .screenshot-item {
+            background: #1c2530;
+            border-radius: 24px;
+            aspect-ratio: 9 / 16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5a6e85;
+            font-size: 0.9rem;
+            border: 1px solid #2a3645;
+            transition: all 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .screenshot-item:hover {
+            border-color: #007aff;
+            transform: translateY(-4px);
+        }
+        .screenshot-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .screenshot-placeholder i {
+            font-size: 2.5rem;
+            opacity: 0.4;
+        }
+
+        /* --- 4. 评价与下载 --- */
+        .cta-section {
+            padding: 90px 0;
+            background: radial-gradient(circle at 70% 30%, #142433, #070a0e);
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            max-width: 700px;
+            margin: 0 auto 16px;
+        }
+        .cta-section .sub {
+            color: #9aa9be;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+        .rating-stars {
+            color: #ffb340;
+            font-size: 1.6rem;
+            letter-spacing: 4px;
+        }
+        .rating-text {
+            color: #b0c4de;
+        }
+
+        /* --- 5. 页脚 --- */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #1f2a36;
+            text-align: center;
+            color: #5a6e85;
+            font-size: 0.85rem;
+            background: #070a0e;
+        }
+        footer a {
+            color: #8e9aaf;
+            text-decoration: none;
+            margin: 0 12px;
+        }
+        footer a:hover {
+            color: #ffffff;
+        }
+        .footer-links {
+            margin-bottom: 16px;
+        }
+
+        /* 简单的图标占位 (使用Unicode或Emoji) */
+        .icon-em {
+            font-style: normal;
+        }
+        /* 响应式微调 */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            .btn-primary {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+            .hero-cta .app-store-link img {
+                height: 46px;
+            }
+            .features-grid {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 英雄区 -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🎮 Download now · Play for free</div>
+            <h1>Easy Arrows</h1>
+            <p>
+                Easy to pick up, endless strategies. Assemble your warrior squad and outmaneuver your opponents on the fantasy battlefield, enjoying fast-paced turn-based combat.
+            </p>
+            <div class="hero-cta">
+                <!-- 替换为你的真实App Store链接 -->
+                <a href="https://apps.apple.com/us/app/id6804382336" class="app-store-link" target="_blank">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="border-radius: 14px; height: 54px;">
+                </a>
+                <div class="hero-rating">
+                    <span>★★★★★</span> 4.8 · 1.2K Evaluation
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 亮点特色 -->
+    <section class="features">
+        <div class="container">
+            <h2>⚔️ Game highlights</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🕹️</span>
+                    <h3>Easy to get started</h3>
+                    <!-- <p>简单的拖拽与点击，无需复杂教程，一分钟开启你的首场对决。</p> -->
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Strategy is king</h3>
+                    <!-- <p>兵种相克、地形影响、技能搭配，每一次选择都关乎胜负。</p> -->
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Slow-paced battle</h3>
+                    <!-- <p>平均3-5分钟一局，充分利用碎片时间，随时来一场脑力激荡。</p> -->
+                </div>
+                <!-- <div class="feature-item">
+                    <span class="feature-icon">🏆</span>
+                    <h3>全球竞技</h3>
+                    <p>与来自世界各地的玩家实时匹配，攀登天梯排行榜。</p>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 截图预览 -->
+    <section class="media-preview">
+        <div class="container">
+            <h2>📱 Game Preview</h2>
+            <!-- <p class="media-sub">直观的界面，精致的画风，每一帧都是享受。</p> -->
+            <div class="screenshot-grid">
+                <!-- 这里替换为你的真实截图 -->
+                <div class="screenshot-item">
+                    <img src="./1.PNG"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;">
+                </div>
+                <div class="screenshot-item">
+                    <img src="./2.PNG"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;">
+                </div>
+                <div class="screenshot-item">
+                    <img src="./3.PNG"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;">
+                </div>
+                <div class="screenshot-item">
+                    <img src="./4.PNG"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最终下载号召
+    <section class="cta-section">
+        <div class="container">
+            <h2>准备好成为传奇指挥官了吗？</h2>
+            <p class="sub">加入万千勇士的行列，现在下载，立即开战！</p>
+            <div class="cta-buttons">
+                <a href="https://apps.apple.com/us/app/id6804382336" class="btn-primary" target="_blank">
+                    <span>📲</span> 免费下载
+                </a>
+                <div>
+                    <div class="rating-stars">★★★★★</div>
+                    <div class="rating-text">基于 1.2K+ 条评价</div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+                <a href="https://apps.apple.com/us/app/id6804382336" target="_blank">App Store</a>
+            </div>
+            <p>&copy; 2026 Easy Arrows. All rights reserved.</p>
+            <p style="margin-top: 8px; opacity:0.6;">This website is a simple marketing page and has no affiliation with Apple Inc.</p>
+        </div>
+    </footer>
+</body>
+</html>
